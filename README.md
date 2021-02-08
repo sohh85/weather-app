@@ -1,5 +1,7 @@
 # weather-app
 
+https://sohh85.github.io/weather-app/
+
 ## Project setup
 ```
 npm install
