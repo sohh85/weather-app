@@ -2,8 +2,8 @@
 
 https://sohh85.github.io/weather-app/
 
-https://user-images.githubusercontent.com/67961122/107181566-7803a500-6a1e-11eb-8d72-b092ff05357f.mp4
 
+![kekka](https://user-images.githubusercontent.com/67961122/107348674-b080ad00-6b0a-11eb-87d8-e6b90c23b63d.gif)
 
 
 

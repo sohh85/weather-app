@@ -35,7 +35,11 @@ export default {
   methods: {
     getWeather: function () {
       axios
-        .get("https://www.metaweather.com/api/location/" + this.city_id)
+        .get(
+          // "https://www.metaweather.com/api/location/" + this.city_id
+          "https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/" +
+            this.city_id
+        )
         .then(
           function (response) {
             //infos[]に、map関数で配列をまとめて代入
