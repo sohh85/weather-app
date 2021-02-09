@@ -3,7 +3,7 @@
 https://sohh85.github.io/weather-app/
 
 
-![kekka](https://user-images.githubusercontent.com/67961122/107348674-b080ad00-6b0a-11eb-87d8-e6b90c23b63d.gif)
+![result](https://user-images.githubusercontent.com/67961122/107349587-bc20a380-6b0b-11eb-85ca-b635b27c7c11.gif)
 
 
 
