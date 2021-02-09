@@ -1,6 +1,6 @@
 # お天気チェッカー
 
-https://sohh85.github.io/weather-app/
+URL　：　https://sohh85.github.io/weather-app/
 
 
 ![result](https://user-images.githubusercontent.com/67961122/107349587-bc20a380-6b0b-11eb-85ca-b635b27c7c11.gif)
