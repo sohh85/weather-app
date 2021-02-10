@@ -35,10 +35,7 @@ export default {
   methods: {
     getWeather: function () {
       axios
-        .get(
-          "https://safe-forest-93176.herokuapp.com/https://www.metaweather.com/api/location/" +
-            this.city_id
-        )
+        .get("https://www.metaweather.com/api/location/" + this.city_id)
         .then(
           function (response) {
             //infos[]に、map関数で配列をまとめて代入
@@ -49,7 +46,7 @@ export default {
                 wind: weather.wind_direction_compass, //風向き
                 weather_state: weather.weather_state_name, //天候
                 image_url:
-                  "https://www.metaweather.com/static/img/weather/ico/" +
+                  "https://safe-forest-93176.herokuapp.com/https://www.metaweather.com/static/img/weather/ico/" +
                   weather.weather_state_abbr +
                   ".ico", //最高気温
               };
