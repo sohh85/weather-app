@@ -49,7 +49,7 @@ export default {
                 wind: weather.wind_direction_compass, //風向き
                 weather_state: weather.weather_state_name, //天候
                 image_url:
-                  "https://safe-forest-93176.herokuapp.com/https://www.metaweather.com/static/img/weather/ico/" +
+                  "https://www.metaweather.com/static/img/weather/ico/" +
                   weather.weather_state_abbr +
                   ".ico", //最高気温
               };
