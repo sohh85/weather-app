@@ -36,7 +36,6 @@ export default {
     getWeather: function () {
       axios
         .get(
-          // "https://www.metaweather.com/api/location/" + this.city_id
           "https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/" +
             this.city_id
         )
