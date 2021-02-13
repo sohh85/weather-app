@@ -2,7 +2,7 @@
   <b-container class="text-center">
     <div class="my-5">
       <h1 class="mb-3">天気情報</h1>
-      <select v-model="city_id" @change="getWeather">
+      <select v-model="woeid" @change="getWeather">
         <option disabled value="">天気を見たい都市を指定してください</option>
         <option value="1118370">Tokyo</option>
         <option value="15015370">Osaka</option>
@@ -28,22 +28,40 @@ import axios from "axios";
 export default {
   data() {
     return {
-      city_id: null,
+      woeid: null,
       infos: [],
     };
   },
   methods: {
     getWeather: function () {
-      axios
-        .get(
+      //apiで取得できる形式'2020/02/02'で日付を生成
+      var ymd = [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6].map((value) => {
+        var dt = new Date();
+        dt.setDate(dt.getDate() + value);
+        var y = dt.getFullYear();
+        var m = ("00" + (dt.getMonth() + 1)).slice(-2);
+        var d = ("00" + dt.getDate()).slice(-2);
+        return "/" + y + "/" + m + "/" + d + "/";
+      });
+      // console.log(ymd); //取得する日付
+
+      var getDataUrl = ymd.map((num) => {
+        return (
           "https://safe-forest-93176.herokuapp.com/https://www.metaweather.com/api/location/" +
-            this.city_id
-        )
-        .then(
-          function (response) {
-            //infos[]に、map関数で配列をまとめて代入
-            this.infos = response.data.consolidated_weather.map((weather) => {
-              return {
+          this.woeid +
+          num
+        );
+      });
+      // console.table(getDataUrl); //前後１週間を取得するための13通りのURL
+
+      getDataUrl.forEach((value, key) => {
+        axios
+          .get(value)
+          .then(
+            function (response) {
+              var weather = response.data[0];
+
+              this.$set(this.infos, key, {
                 date: weather.applicable_date, //日付
                 max_temp: weather.max_temp, //最高気温
                 wind: weather.wind_direction_compass, //風向き
@@ -52,13 +70,14 @@ export default {
                   "https://www.metaweather.com/static/img/weather/ico/" +
                   weather.weather_state_abbr +
                   ".ico", //天気画像
-              };
-            });
-          }.bind(this)
-        )
-        .catch(function (error) {
-          console.log(error);
-        });
+              });
+            }.bind(this)
+          )
+          .catch(function (error) {
+            console.log(error);
+          });
+      }); //foreach
+      console.log(this.infos);
     },
   },
   filters: {
@@ -68,6 +87,7 @@ export default {
   },
 };
 </script>
+
 <style>
 p {
   margin: 5px;
