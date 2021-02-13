@@ -1,29 +1,47 @@
 <template>
-  <b-container class="text-center">
-    <div class="my-5">
-      <h1 class="mb-3">天気情報</h1>
-      <select v-model="woeid" @change="getWeather">
-        <option disabled value="">天気を見たい都市を指定してください</option>
-        <option value="1118370">Tokyo</option>
-        <option value="15015370">Osaka</option>
-        <option value="1117817">Nagoya</option>
+  <div class="text-center">
+    <div class="py-5 form-group">
+      <h1 class="mb-4">天気情報</h1>
+      <label for="select">天気を見たい地域を選んでください</label>
+      <select
+        id="select"
+        class="form-control"
+        v-model="woeid"
+        @change="getWeather"
+      >
+        <option value="1118108">札幌</option>
+        <option value="1118129">仙台</option>
+        <option value="1118370">東京</option>
+        <option value="15015370">大阪</option>
+        <option value="1117817">名古屋</option>
+        <option value="1117099">福岡</option>
       </select>
     </div>
 
-    <b-row cols="3" cols-sm="4" cols-md="6" cols-lg="7">
-      <b-col v-for="info of infos" v-bind:key="info.date">
-        <p>{{ info.date }}</p>
-        <p>{{ info.max_temp | roundUp }}°C</p>
-        <p>{{ info.wind }}</p>
-        <p>{{ info.weather_state }}</p>
-        <img v-bind:src="info.image_url" />
-      </b-col>
-    </b-row>
-  </b-container>
+    <b-card-group cols="3" cols-sm="4" cols-md="6" cols-lg="7">
+      <b-card v-for="info of infos" v-bind:key="info.date">
+        <b-card-title>{{ info.date | moment }}</b-card-title>
+        <b-card-text>
+          <ul>
+            <li class="small text-muted">{{ info.weather_state }}</li>
+            <li><img v-bind:src="info.image_url" /></li>
+            <li class="small text-muted mt-3">気温</li>
+            <li>最高 {{ info.max_temp | roundUp }}°C</li>
+            <li>最低 {{ info.min_temp | roundUp }}°C</li>
+            <li class="small text-muted mt-2">湿度</li>
+            <li>{{ info.humidity }}％</li>
+            <li class="small text-muted mt-2">風速</li>
+            <li>{{ info.wind_speed | roundUp }}mph</li>
+          </ul>
+        </b-card-text>
+      </b-card>
+    </b-card-group>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
+import moment from "moment";
 
 export default {
   data() {
@@ -34,8 +52,7 @@ export default {
   },
   methods: {
     getWeather: function () {
-      //apiで取得できる形式'2020/02/02'で日付を生成
-      var ymd = [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6].map((value) => {
+      var ymd = [0, 1, 2, 3, 4, 5, 6, 7].map((value) => {
         var dt = new Date();
         dt.setDate(dt.getDate() + value);
         var y = dt.getFullYear();
@@ -43,16 +60,15 @@ export default {
         var d = ("00" + dt.getDate()).slice(-2);
         return "/" + y + "/" + m + "/" + d + "/";
       });
-      // console.log(ymd); //取得する日付
 
       var getDataUrl = ymd.map((num) => {
         return (
           "https://safe-forest-93176.herokuapp.com/https://www.metaweather.com/api/location/" +
+          // "https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/" +
           this.woeid +
           num
         );
       });
-      // console.table(getDataUrl); //前後１週間を取得するための13通りのURL
 
       getDataUrl.forEach((value, key) => {
         axios
@@ -64,13 +80,16 @@ export default {
               this.$set(this.infos, key, {
                 date: weather.applicable_date, //日付
                 max_temp: weather.max_temp, //最高気温
-                wind: weather.wind_direction_compass, //風向き
+                min_temp: weather.min_temp, //最低気温
+                wind_speed: weather.wind_speed, //風速
                 weather_state: weather.weather_state_name, //天候
+                humidity: weather.humidity, //湿度
                 image_url:
                   "https://www.metaweather.com/static/img/weather/ico/" +
                   weather.weather_state_abbr +
                   ".ico", //天気画像
               });
+              console.log(response.data);
             }.bind(this)
           )
           .catch(function (error) {
@@ -84,12 +103,23 @@ export default {
     roundUp(value) {
       return Math.ceil(value);
     },
+    moment: function (date) {
+      return moment(date).format("M月DD日"); // eslint-disable-line
+    },
   },
 };
 </script>
 
 <style>
-p {
-  margin: 5px;
+li {
+  list-style: none;
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+.form-control {
+  width: 300px !important;
+  margin: 0 auto;
 }
 </style>
