@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     getWeather: function () {
-      // 配列ymdに前後１週間の日付を代入
+      //apiで取得できる形式'2020/02/02'で日付を生成
       var ymd = [-6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6].map((value) => {
         var dt = new Date();
         dt.setDate(dt.getDate() + value);
@@ -47,25 +47,21 @@ export default {
 
       var getDataUrl = ymd.map((num) => {
         return (
-          // "axios.get('" +
           "https://safe-forest-93176.herokuapp.com/https://www.metaweather.com/api/location/" +
           this.woeid +
           num
-          // + "')"
         );
       });
       // console.table(getDataUrl); //前後１週間を取得するための13通りのURL
 
-      getDataUrl.forEach((value) => {
-        // axios
-        //   .all(getDataUrl)
+      getDataUrl.forEach((value, key) => {
         axios
           .get(value)
           .then(
             function (response) {
               var weather = response.data[0];
 
-              this.infos = [
+              this.infos[key] = [
                 {
                   date: weather.applicable_date, //日付
                   max_temp: weather.max_temp, //最高気温
@@ -76,8 +72,7 @@ export default {
                     weather.weather_state_abbr +
                     ".ico", //天気画像
                 },
-
-                // console.log(response.data),
+                console.log(response.data[0]), //infosに格納する値をチェック
               ];
             }.bind(this)
           )
