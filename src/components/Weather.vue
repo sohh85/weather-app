@@ -12,11 +12,11 @@
 
     <b-row cols="3" cols-sm="4" cols-md="6" cols-lg="7">
       <b-col v-for="info of infos" v-bind:key="info.date">
-        <p>{{ info[0].date }}</p>
-        <p>{{ info[0].max_temp | roundUp }}°C</p>
-        <p>{{ info[0].wind }}</p>
-        <p>{{ info[0].weather_state }}</p>
-        <img v-bind:src="info[0].image_url" />
+        <p>{{ info.date }}</p>
+        <p>{{ info.max_temp | roundUp }}°C</p>
+        <p>{{ info.wind }}</p>
+        <p>{{ info.weather_state }}</p>
+        <img v-bind:src="info.image_url" />
       </b-col>
     </b-row>
   </b-container>
@@ -61,19 +61,16 @@ export default {
             function (response) {
               var weather = response.data[0];
 
-              this.infos[key] = [
-                {
-                  date: weather.applicable_date, //日付
-                  max_temp: weather.max_temp, //最高気温
-                  wind: weather.wind_direction_compass, //風向き
-                  weather_state: weather.weather_state_name, //天候
-                  image_url:
-                    "https://www.metaweather.com/static/img/weather/ico/" +
-                    weather.weather_state_abbr +
-                    ".ico", //天気画像
-                },
-                // console.log(response.data[0]), //infosに格納する値チェック
-              ];
+              this.$set(this.infos, key, {
+                date: weather.applicable_date, //日付
+                max_temp: weather.max_temp, //最高気温
+                wind: weather.wind_direction_compass, //風向き
+                weather_state: weather.weather_state_name, //天候
+                image_url:
+                  "https://www.metaweather.com/static/img/weather/ico/" +
+                  weather.weather_state_abbr +
+                  ".ico", //天気画像
+              });
             }.bind(this)
           )
           .catch(function (error) {
