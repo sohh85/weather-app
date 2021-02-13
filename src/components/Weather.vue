@@ -43,42 +43,49 @@ export default {
         var d = ("00" + dt.getDate()).slice(-2);
         return "/" + y + "/" + m + "/" + d + "/";
       });
-
-      console.log(ymd); //取得する日付
+      // console.log(ymd); //取得する日付
 
       var getDataUrl = ymd.map((num) => {
         return (
+          // "axios.get('" +
           "https://safe-forest-93176.herokuapp.com/https://www.metaweather.com/api/location/" +
           this.woeid +
           num
+          // + "')"
         );
       });
+      // console.table(getDataUrl); //前後１週間を取得するための13通りのURL
 
-      console.log(getDataUrl); //日付とwoeidを付与したURL（13）
+      getDataUrl.forEach((value) => {
+        // axios
+        //   .all(getDataUrl)
+        axios
+          .get(value)
+          .then(
+            function (response) {
+              var weather = response.data[0];
 
-      axios
-        .get(getDataUrl)
-        .then(
-          function (response) {
-            this.infos = response.data.map((weather) => {
-              return {
-                date: weather.applicable_date, //日付
-                max_temp: weather.max_temp, //最高気温
-                wind: weather.wind_direction_compass, //風向き
-                weather_state: weather.weather_state_name, //天候
-                image_url:
-                  "https://www.metaweather.com/static/img/weather/ico/" +
-                  weather.weather_state_abbr +
-                  ".ico", //天気画像
-              };
-            });
+              this.infos = [
+                {
+                  date: weather.applicable_date, //日付
+                  max_temp: weather.max_temp, //最高気温
+                  wind: weather.wind_direction_compass, //風向き
+                  weather_state: weather.weather_state_name, //天候
+                  image_url:
+                    "https://www.metaweather.com/static/img/weather/ico/" +
+                    weather.weather_state_abbr +
+                    ".ico", //天気画像
+                },
 
-            console.log(this.infos);
-          }.bind(this)
-        )
-        .catch(function (error) {
-          console.log(error);
-        });
+                // console.log(response.data),
+              ];
+            }.bind(this)
+          )
+          .catch(function (error) {
+            console.log(error);
+          });
+      }); //foreach
+      console.log(this.infos);
     },
   },
   filters: {
