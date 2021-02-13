@@ -3,21 +3,19 @@
 URL　：　https://sohh85.github.io/weather-app/
 
 
-![result](https://user-images.githubusercontent.com/67961122/107349587-bc20a380-6b0b-11eb-85ca-b635b27c7c11.gif)
-
+<img width="1406" alt="スクリーンショット 2021-02-14 1 57 54" src="https://user-images.githubusercontent.com/67961122/107855902-97f4f780-6e68-11eb-8138-aa822b1b4e1f.png">
 
 
 ## 概要
-前後一週間分の天気を表示するサービスです。
-東京・大阪・名古屋の天気を下記APIから取得しています。
+- 指定した地域の、1週間分の天気を表示するサービスです。
+- 下記APIから取得しています。
 https://www.metaweather.com/api/
 
-
-
-## 修正点
-- 過去の天気一週間分を表示
-- 選択肢をボタンに変更
-- bootstrap-vueで装飾
+## 使用
+- Vue CLI 4.5.11
+- Vue 2.6.12
+- npm 6.14.10
+- axios 0.21.1
 
 ## Project setup
 ```
