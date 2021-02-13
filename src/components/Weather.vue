@@ -12,11 +12,11 @@
 
     <b-row cols="3" cols-sm="4" cols-md="6" cols-lg="7">
       <b-col v-for="info of infos" v-bind:key="info.date">
-        <p>{{ info.date }}</p>
-        <p>{{ info.max_temp | roundUp }}°C</p>
-        <p>{{ info.wind }}</p>
-        <p>{{ info.weather_state }}</p>
-        <img v-bind:src="info.image_url" />
+        <p>{{ info[0].date }}</p>
+        <p>{{ info[0].max_temp | roundUp }}°C</p>
+        <p>{{ info[0].wind }}</p>
+        <p>{{ info[0].weather_state }}</p>
+        <img v-bind:src="info[0].image_url" />
       </b-col>
     </b-row>
   </b-container>
@@ -72,7 +72,7 @@ export default {
                     weather.weather_state_abbr +
                     ".ico", //天気画像
                 },
-                console.log(response.data[0]), //infosに格納する値をチェック
+                // console.log(response.data[0]), //infosに格納する値チェック
               ];
             }.bind(this)
           )
