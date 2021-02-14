@@ -16,7 +16,7 @@ https://www.metaweather.com/api/
 - Vue 2.6.12
 - npm 6.14.10
 - axios 0.21.1
-- bootstrap-vue" 2.21.2
+- bootstrap-vue 2.21.2
 
 ## Project setup
 ```
