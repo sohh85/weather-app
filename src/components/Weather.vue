@@ -52,7 +52,8 @@ export default {
   },
   methods: {
     getWeather: function () {
-      var ymd = [0, 1, 2, 3, 4, 5, 6, 7].map((value) => {
+      // 2020/02/18/ の形式で日付を1週間分つくり、ymdに格納
+      var ymd = [0, 1, 2, 3, 4, 5, 6].map((value) => {
         var dt = new Date();
         dt.setDate(dt.getDate() + value);
         var y = dt.getFullYear();
@@ -64,7 +65,6 @@ export default {
       var getDataUrl = ymd.map((num) => {
         return (
           "https://safe-forest-93176.herokuapp.com/https://www.metaweather.com/api/location/" +
-          // "https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/" +
           this.woeid +
           num
         );
@@ -87,16 +87,15 @@ export default {
                 image_url:
                   "https://www.metaweather.com/static/img/weather/ico/" +
                   weather.weather_state_abbr +
-                  ".ico", //天気画像
+                  ".ico", //天気アイコン
               });
-              console.log(response.data);
             }.bind(this)
           )
           .catch(function (error) {
             console.log(error);
           });
       }); //foreach
-      console.log(this.infos);
+      console.log(process.env);
     },
   },
   filters: {
@@ -104,7 +103,7 @@ export default {
       return Math.ceil(value);
     },
     moment: function (date) {
-      return moment(date).format("M月DD日"); // eslint-disable-line
+      return moment(date).format("M月DD日");
     },
   },
 };
