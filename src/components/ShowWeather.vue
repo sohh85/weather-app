@@ -47,7 +47,7 @@ export default {
   data() {
     return {
       woeid: null,
-      infos: [],
+      infos: {},
     };
   },
   methods: {
@@ -64,9 +64,8 @@ export default {
 
       var getDataUrl = ymd.map((num) => {
         return (
-          "https://safe-forest-93176.herokuapp.com/https://www.metaweather.com/api/location/" +
-          this.woeid +
-          num
+          // "https://safe-forest-93176.herokuapp.com/https://www.metaweather.com/api/location/" +
+          "/api/location/" + this.woeid + num
         );
       });
 
@@ -94,8 +93,7 @@ export default {
           .catch(function (error) {
             console.log(error);
           });
-      }); //foreach
-      console.log(process.env);
+      });
     },
   },
   filters: {

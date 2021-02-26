@@ -1,15 +1,15 @@
 <template>
   <div id="app" class="bg-image">
-    <Weather />
+    <show-weather />
   </div>
 </template>
 
 <script>
-import Weather from "./components/Weather.vue";
+import ShowWeather from "./components/ShowWeather.vue";
 
 export default {
   components: {
-    Weather,
+    ShowWeather,
   },
 };
 </script>
