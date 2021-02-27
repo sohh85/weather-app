@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="bg-image">
-    <show-weather />
+    <ShowWeather />
   </div>
 </template>
 

@@ -19,19 +19,19 @@
     </div>
 
     <b-card-group cols="3" cols-sm="4" cols-md="6" cols-lg="7">
-      <b-card v-for="info of infos" v-bind:key="info.date">
-        <b-card-title>{{ info.date | moment }}</b-card-title>
+      <b-card v-for="weather of weatherList" v-bind:key="weather.date">
+        <b-card-title>{{ weather.date | moment }}</b-card-title>
         <b-card-text>
           <ul>
-            <li class="small text-muted">{{ info.weather_state }}</li>
-            <li><img v-bind:src="info.image_url" /></li>
+            <li class="small text-muted">{{ weather.weather_state }}</li>
+            <li><img v-bind:src="weather.image_url" /></li>
             <li class="small text-muted mt-3">気温</li>
-            <li>最高 {{ info.max_temp | roundUp }}°C</li>
-            <li>最低 {{ info.min_temp | roundUp }}°C</li>
+            <li>最高 {{ weather.max_temp | roundUp }}°C</li>
+            <li>最低 {{ weather.min_temp | roundUp }}°C</li>
             <li class="small text-muted mt-2">湿度</li>
-            <li>{{ info.humidity }}％</li>
+            <li>{{ weather.humidity }}％</li>
             <li class="small text-muted mt-2">風速</li>
-            <li>{{ info.wind_speed | roundUp }}mph</li>
+            <li>{{ weather.wind_speed | roundUp }}mph</li>
           </ul>
         </b-card-text>
       </b-card>
@@ -47,7 +47,7 @@ export default {
   data() {
     return {
       woeid: null,
-      infos: {},
+      weatherList: {},
     };
   },
   methods: {
@@ -62,21 +62,21 @@ export default {
         return "/" + y + "/" + m + "/" + d + "/";
       });
 
-      var getDataUrl = ymd.map((num) => {
+      var getWeatherUrl = ymd.map((num) => {
         return (
           // "https://safe-forest-93176.herokuapp.com/https://www.metaweather.com/api/location/" +
           "/api/location/" + this.woeid + num
         );
       });
 
-      getDataUrl.forEach((value, key) => {
+      getWeatherUrl.forEach((value, key) => {
         axios
           .get(value)
           .then(
             function (response) {
               var weather = response.data[0];
 
-              this.$set(this.infos, key, {
+              this.$set(this.weatherList, key, {
                 date: weather.applicable_date, //日付
                 max_temp: weather.max_temp, //最高気温
                 min_temp: weather.min_temp, //最低気温
